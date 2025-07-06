@@ -109,3 +109,36 @@ h1, h2, h3 {
         text-align: center;
     }
 }
+
+/* --- Category Cards on Homepage --- */
+.category-card-link {
+    text-decoration: none;
+}
+
+.category-card {
+    border: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+.category-card .card-img {
+    filter: brightness(0.6); /* Darken the image to make text pop */
+    transition: filter 0.3s ease;
+}
+
+.category-card:hover .card-img {
+    filter: brightness(0.4);
+}
+
+.category-card .card-img-overlay {
+    background: rgba(0,0,0,0.3); /* Ensure text is always readable */
+    transition: background 0.3s ease;
+}
+
+.category-card:hover .card-img-overlay {
+    background: rgba(0,0,0,0.1);
+}

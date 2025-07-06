@@ -41,7 +41,6 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products/')
     stock = models.PositiveIntegerField(default=1)
     collection = models.CharField(max_length=100, blank=True, null=True, help_text="e.g., Jordan, Air Max")
-
     def __str__(self):
         return self.name
 

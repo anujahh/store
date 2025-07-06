@@ -28,4 +28,6 @@ urlpatterns = [
     path('process-payment/', views.process_payment, name='process_payment'),
     path('payment-success/', views.payment_success, name='payment_success'),
     path('payment-cancelled/', views.payment_cancelled, name='payment_cancelled'),
+
+    path('about/', views.about_us_view, name='about_us'),
 ]

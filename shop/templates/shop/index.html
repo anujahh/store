@@ -46,21 +46,22 @@
 <body class="text-gray-900">
 
     <!-- Hero Section -->
-    <div class="hero relative flex items-center justify-center">
+    <section class="relative h-screen flex items-center justify-center bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1950&q=80');">
         <div class="absolute inset-0 bg-black/60"></div>
-        <div class="z-10 text-center px-4 max-w-4xl">
-            <h1 class="nike-font text-white text-7xl sm:text-8xl md:text-9xl uppercase mb-8">
-                JUST<br>DO<br>IT
+        <div class="relative z-10 text-center px-6">
+            <h1 class="nike-font text-white text-6xl sm:text-8xl uppercase mb-6">
+                Just Do It
             </h1>
-            <p class="text-xl md:text-2xl text-gray-200 mb-10 max-w-2xl mx-auto font-medium">
-                Push limits. Redefine possible. The Nike collection awaits you.
+            <p class="text-white text-xl md:text-2xl max-w-2xl mx-auto mb-8">
+                Unleash your potential with Nike’s latest collection.
             </p>
-            <a href="{% url 'product_list' %}" class="inline-block px-8 py-3 bg-lime-400 hover:bg-lime-300 text-black text-lg font-bold rounded-full transition">
-                Explore Collection
+            <a href="{% url 'product_list' %}" class="bg-white text-black font-bold py-3 px-8 rounded-full hover:bg-gray-200 transition">
+                Shop Now
             </a>
         </div>
-    </div>
-
+    </section>
+    <!-- NEW: Shop by Category Section -->
+    
     <!-- Featured Products -->
     <section class="py-20 px-6 sm:px-10 lg:px-16 max-w-7xl mx-auto">
         <div class="text-center mb-16">
