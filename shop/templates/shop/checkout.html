@@ -1,0 +1,107 @@
+<!-- shop/templates/shop/checkout.html -->
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-5">Checkout</h1>
+    <div class="row g-5">
+        <!-- Order Summary & Token Application -->
+        <div class="col-md-7">
+            <h4>Order Summary</h4>
+            <div class="card">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between"><span>Subtotal:</span> <span>${{ total_price|floatformat:2 }}</span></li>
+                        <li class="list-group-item d-flex justify-content-between"><span>Your Available Tokens:</span> <span>{{ user_tokens }}</span></li>
+                        <li class="list-group-item">
+                            <form method="get" class="d-flex justify-content-between">
+                                <label for="tokens" class="form-label me-2">Use Tokens:</label>
+                                <div class="input-group">
+                                    <input type="number" name="tokens" class="form-control" value="{{ tokens_to_use }}" min="0" max="{{ user_tokens }}">
+                                    <button class="btn btn-outline-secondary" type="submit">Apply</button>
+                                </div>
+                            </form>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between text-success"><span>Discount:</span> <span>-${{ discount|floatformat:2 }}</span></li>
+                        <li class="list-group-item d-flex justify-content-between fs-4 fw-bold"><span>Final Total:</span> <span>${{ final_price|floatformat:2 }}</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Section -->
+        <div class="col-md-5">
+            <h4>Pay With PayPal</h4>
+            <div class="card p-3 text-center">
+                <p>Click the button below to complete your purchase securely with PayPal.</p>
+                <!-- PayPal Button Container -->
+                <div id="paypal-button-container"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PayPal SDK -->
+<script src="https://www.paypal.com/sdk/js?client-id={{ PAYPAL_CLIENT_ID }}¤cy=USD"></script>
+
+<script>
+    // Get CSRF token from a form if available, or from a cookie
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+    paypal.Buttons({
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: '{{ final_price|floatformat:2 }}'
+                    }
+                }]
+            });
+        },
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                fetch("{% url 'process_payment' %}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken
+                    },
+                    body: JSON.stringify({
+                        transaction_id: details.id,
+                        amount_paid: '{{ final_price|floatformat:2 }}',
+                        tokens_used: '{{ tokens_to_use }}'
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.redirect_url) {
+                        window.location.href = data.redirect_url;
+                    } else {
+                        console.error('Error processing payment:', data.error);
+                        alert('There was an error processing your payment.');
+                    }
+                });
+            });
+        },
+        onError: function (err) {
+             console.error('PayPal Error:', err);
+             window.location.href = "{% url 'payment_cancelled' %}";
+        }
+    }).render('#paypal-button-container');
+</script>
+{% endblock %}

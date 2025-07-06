@@ -1,0 +1,59 @@
+<!-- shop/templates/shop/cart.html -->
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-5">Your Cart</h1>
+
+    {% if cart_items %}
+    <div class="row">
+        <!-- Cart Items -->
+        <div class="col-lg-8">
+            {% for item in cart_items %}
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-3">
+                        <img src="{{ item.product.image.url }}" class="img-fluid rounded-start" alt="{{ item.product.name }}">
+                    </div>
+                    <div class="col-md-9">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.product.name }}</h5>
+                            <p class="card-text">Quantity: {{ item.quantity }}</p>
+                            <p class="card-text fw-bold">Price: ${{ item.product.price }}</p>
+                            <a href="{% url 'remove_from_cart' item.product.id %}" class="btn btn-sm btn-outline-danger">Remove</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Order Summary -->
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Order Summary</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Subtotal
+                            <span>${{ total_price|floatformat:2 }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center fw-bold">
+                            Total
+                            <span>${{ total_price|floatformat:2 }}</span>
+                        </li>
+                    </ul>
+                    <a href="{% url 'checkout' %}" class="btn btn-dark w-100 mt-3">Proceed to Checkout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <p class="lead">Your cart is empty.</p>
+        <a href="{% url 'product_list' %}" class="btn btn-dark">Start Shopping</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+<!-- shop/templates/shop/saved_dates.html -->
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <!-- Add a New Date Form -->
+        <div class="col-md-5">
+            <h2 class="mb-4">Save a New Date</h2>
+            <div class="card">
+                <div class="card-body">
+                    <form action="{% url 'add_saved_date' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="eventName" class="form-label">Event Name</label>
+                            <input type="text" class="form-control" id="eventName" name="event_name" placeholder="e.g., Anniversary" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="eventDate" class="form-label">Event Date</label>
+                            <input type="date" class="form-control" id="eventDate" name="event_date" required>
+                        </div>
+                        <button type="submit" class="btn btn-dark w-100">Save & Get Reminder</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- List of Saved Dates -->
+        <div class="col-md-7">
+            <h2 class="mb-4">Your Saved Dates</h2>
+            {% if dates %}
+                <ul class="list-group">
+                    {% for date in dates %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="fw-bold">{{ date.event_name }}</span> - <span class="text-muted">{{ date.event_date|date:"F j, Y" }}</span>
+                        </div>
+                        <a href="{% url 'delete_saved_date' date.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>You have no saved dates. Add one to get a reminder!</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

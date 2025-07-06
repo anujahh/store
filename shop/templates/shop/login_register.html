@@ -1,0 +1,30 @@
+{% extends 'shop/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <!-- Login Form -->
+        <div class="col-md-6 mb-4">
+            <div class="auth-container">
+                <h2 class="mb-4">Login</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ auth_form|crispy }}
+                    <button type="submit" name="login" class="btn btn-dark mt-3 w-100">Login</button>
+                </form>
+            </div>
+        </div>
+        <!-- Registration Form -->
+        <div class="col-md-6">
+            <div class="auth-container">
+                <h2 class="mb-4">Create an Account</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ reg_form|crispy }}
+                    <button type="submit" name="register" class="btn btn-dark mt-3 w-100">Sign Up</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

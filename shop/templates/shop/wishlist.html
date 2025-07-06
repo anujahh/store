@@ -1,0 +1,36 @@
+<!-- shop/templates/shop/wishlist.html -->
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-5">Your Wishlist</h1>
+
+    {% if wishlist.products.all %}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+        {% for product in wishlist.products.all %}
+        <div class="col">
+            <div class="card h-100 product-card">
+                <a href="{% url 'product_detail' product.slug %}">
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text fw-bold">${{ product.price }}</p>
+                </div>
+                <div class="card-footer bg-white d-flex justify-content-between">
+                    <a href="{% url 'product_detail' product.slug %}" class="btn btn-sm btn-dark">View</a>
+                    <a href="{% url 'remove_from_wishlist' product.id %}" class="btn btn-sm btn-outline-danger">Remove</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <p class="lead">Your wishlist is empty.</p>
+        <a href="{% url 'product_list' %}" class="btn btn-dark">Discover Products</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+<!-- shop/templates/shop/products.html -->
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 nike-font">ALL GEAR UP</h1>
+        <p class="lead">Find what moves you. From the track to the street.</p>
+    </div>
+
+    <div class="row">
+        <!-- Filters Column -->
+        <div class="col-lg-3">
+            <h3 class="mb-4">Categories</h3>
+            <div class="list-group">
+                <a href="{% url 'product_list' %}" class="list-group-item list-group-item-action">All Products</a>
+                {% for category in categories %}
+                    <a href="#" class="list-group-item list-group-item-action">{{ category.name }}</a>
+                    <!-- Note: For real filtering, you'd make this link pass a query parameter -->
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Products Grid Column -->
+        <div class="col-lg-9">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                {% for product in products %}
+                <div class="col">
+                    <div class="card h-100 product-card">
+                        <a href="{% url 'product_detail' product.slug %}">
+                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text text-muted">{{ product.collection|default_if_none:"" }}</p>
+                            <p class="card-text fw-bold">${{ product.price }}</p>
+                        </div>
+                        <div class="card-footer bg-white border-top-0">
+                            <a href="{% url 'product_detail' product.slug %}" class="btn btn-dark w-100">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <p class="text-center">No products found.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,111 @@
+
+
+/* style.css */
+
+/* --- General & Typography --- */
+body {
+    background-color: #fff;
+    color: #111;
+    font-family: 'Inter', sans-serif;
+}
+
+.nike-font {
+    font-family: 'Anton', sans-serif;
+    letter-spacing: 1.5px;
+    font-size: 1.8rem;
+}
+
+h1, h2, h3 {
+    font-weight: 700;
+}
+
+/* --- Navbar --- */
+.navbar {
+    padding: 1rem 2rem;
+}
+.nav-link {
+    text-transform: uppercase;
+    font-weight: 600;
+    margin: 0 1rem;
+    transition: color 0.3s ease;
+}
+.nav-link:hover {
+    color: #757575 !important;
+}
+
+/* --- Hero Section (Home Page) --- */
+.hero-section {
+    height: 80vh;
+    background: url('https://static.nike.com/a/images/f_auto,cs_srgb/w_1920,c_limit/f64c1264-b387-41a4-a953-e5e019f2a088/nike-just-do-it.jpg') no-repeat center center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+.hero-content {
+    animation: fadeIn 2s ease-in-out;
+}
+
+/* --- Product Cards --- */
+.product-card {
+    border: none;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+.product-card .card-img-top {
+    transition: transform 0.5s ease;
+}
+.product-card:hover .card-img-top {
+    transform: scale(1.05);
+}
+.card-body {
+    background-color: #fff;
+}
+
+/* --- Buttons --- */
+.btn-dark {
+    background-color: #111;
+    border-color: #111;
+    border-radius: 30px;
+    padding: 10px 25px;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+.btn-dark:hover {
+    background-color: #333;
+    border-color: #333;
+}
+
+/* --- Login/Register Page --- */
+.auth-container {
+    background-color: #f5f5f5;
+    padding: 2rem;
+    border-radius: 8px;
+}
+
+/* --- Animations --- */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Product Detail Page --- */
+.product-detail-img {
+    transition: transform 0.3s ease;
+}
+.product-detail-img:hover {
+    transform: scale(1.1); /* Simple Zoom Effect */
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .navbar-nav {
+        text-align: center;
+    }
+}
