@@ -15,13 +15,33 @@ from decimal import Decimal
 
 # --- Home & Product Views ---
 def home(request):
-    featured_products = Product.objects.all().order_by('-id')[:8] # Get 8 latest products
+    featured_products = Product.objects.all().order_by('-id')[:4] # Get 4 latest products
     return render(request, 'shop/index.html', {'featured_products': featured_products})
 
+from django.shortcuts import render
+from .models import Product, Category
+
 def product_list(request):
-    products = Product.objects.all()
+    category_slug = request.GET.get('category')
     categories = Category.objects.all()
-    return render(request, 'shop/products.html', {'products': products, 'categories': categories})
+    products = Product.objects.all()
+    selected_category = None
+
+    if category_slug:
+        products = products.filter(category__slug=category_slug)
+        selected_category = category_slug
+
+    context = {
+        'products': products,
+        'categories': categories,
+        'selected_category': selected_category,
+    }
+    return render(request, 'shop/products.html', context)
+
+# def product_list(request):
+#     products = Product.objects.all()
+#     categories = Category.objects.all()
+#     return render(request, 'shop/products.html', {'products': products, 'categories': categories})
 
 def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug)
